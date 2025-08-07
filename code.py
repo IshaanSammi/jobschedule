@@ -4,7 +4,7 @@ import gradio as gr
 import matplotlib.pyplot as plt
 import builtins
 
-# Scheduling logic
+
 def schedule(df, sort_by=None, ascending=True):
     df = df.copy()
     if sort_by:
@@ -24,7 +24,7 @@ def SS(df): return schedule(df, 'Slack')
 
 method_functions = {'FCFS': FCFS, 'SPT': SPT, 'LPT': LPT, 'SCR': SCR, 'SS': SS}
 
-# Gantt Chart
+
 def plot_gantt(df, title="Gantt Chart"):
     fig, ax = plt.subplots(figsize=(10, len(df) * 0.5 + 1))
     start = 0
@@ -39,7 +39,7 @@ def plot_gantt(df, title="Gantt Chart"):
     ax.grid(True)
     return fig
 
-# Random simulation logic
+
 def run_simulation(n, simulations):
     methods = list(method_functions.keys())
     raw_results = {m: {'Flow Time': 0, 'Throughput Rate': 0, 'Lateness': 0} for m in methods}
@@ -77,13 +77,13 @@ def run_simulation(n, simulations):
 
     return pd.DataFrame(results_table, columns=["Metric", "Best Method", "Score"])
 
-# Unified handler for both modes
+
 def main(mode, method, n, simulations, custom_data, uploaded_file):
     if mode == "Random Simulation":
         return run_simulation(int(n), int(simulations)), None
 
     try:
-        # Use uploaded CSV if present
+        
         if uploaded_file is not None:
             df = pd.read_csv(uploaded_file.name)
         else:
@@ -115,7 +115,7 @@ def main(mode, method, n, simulations, custom_data, uploaded_file):
     except Exception as e:
         return f"Error: {str(e)}", None
 
-# Gradio Interface
+
 with gr.Blocks(title="Production Scheduling Optimizer") as demo:
     gr.Markdown("##  Production Scheduling Optimizer with Gantt Chart")
     gr.Markdown("Compare job scheduling strategies with random simulation or custom job data from table or CSV.")
